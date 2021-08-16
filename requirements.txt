@@ -1,0 +1,10 @@
+pyaml
+boto
+boto3
+awscli
+pywinrm
+setuptools-rust
+rust
+cryptography
+ansible
+
