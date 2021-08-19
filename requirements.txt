@@ -1,3 +1,4 @@
+click
 pyaml
 boto
 boto3
@@ -7,4 +8,6 @@ setuptools-rust
 rust
 cryptography
 ansible
-
+ansible-runner
+git-remote-codecommit
+click
