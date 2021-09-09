@@ -70,10 +70,10 @@ def enforce(conf):
     Run Ansible playbook with specified parameters.
     """
     play = ansible.runner.run(
-        conf.playbook='',
-        conf.inventory='',
-        conf.host_pattern='all',
-        conf.extravars=extravars)
+        playbook=conf.playbook,
+        inventory=conf.inventory,
+        host_pattern=conf.inventory_limit,
+        extravars=conf.extravars)
     OUT("{}: {}".format(play.status, play.rc))
     # successful: 0
     for each_host_event in play.events:
@@ -82,32 +82,36 @@ def enforce(conf):
     print(play.stats)
     return(play)
 
-def main(args=None,
-    config='',
-    ansible_user='',
-    ssh_key_path='',
-    password_file='',
-    password_prompt=False,
-    inventory_limit='',
-    playbook='',
-    boot=False,
-    argument='play'):
+def main(c):
     """
     Replaces previous execution with Makefiles.
     """
     os.environ['ANSIBLE_CONFIG'] = "%s/ansible.cfg" % (ansible_tree)
-    extravars = {}
     conf = doconfig()
-    conf.ansible_user = ansible_user
-    conf.ssh_key_path = ssh_key_path
-    conf.password_file = password_file
-    conf.password_prompt = password_prompt
-    conf.inventory_limit = inventory_limit
-    conf.playbook=conf.playbook,
-    conf.inventory="%s/inventory" % (ansible_tree)
-    conf.host_pattern=inventory_limit
-    conf.extravars=extravars
-    conf.extravars['accept_boot'] = boot
+    if not 'extravars' in conf.__dict__.keys():
+        conf.extravars = {}
+    try:
+        extravars.update(conf.extravars)
+    except:
+        pass
+    if c.ansible_user:
+        conf.ansible_user = c.ansible_user
+    if c.ssh_key_path:
+        conf.ssh_key_path = c.ssh_key_path
+    if c.password_file:
+        conf.password_file = c.password_file
+    if c.password_prompt:
+        conf.password_prompt = c.password_prompt
+    if c.inventory_limit:
+        conf.inventory_limit = c.inventory_limit
+    if c.playbook:
+        conf.playbook = c.playbook,
+    if c.ansible_tree:
+        conf.inventory = "%s/inventory" % (c.ansible_tree)
+    if c.inventory_limit:
+        conf.host_pattern=c.inventory_limit
+    if c.boot:
+        conf.extravars['accept_boot'] = c.boot
 
     if conf.password_file:
         try:

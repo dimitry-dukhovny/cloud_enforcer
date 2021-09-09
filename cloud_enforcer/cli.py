@@ -47,9 +47,6 @@ def ERR(outstring=''):
 
 
 @click.command()
-@click.option('--reinstall', '-r', type=click.BOOL,
-    default=False,
-    help='Force PYPI dependency reinstallation in user namespace.')
 @click.option('--config', '-c', default='cloud_enforcer.yml',
     help='Specify a YAML-formatted config file')
 @click.option('--ansible_tree', '-t', default="%s/ansible" % os.getenv('HOME'),
@@ -68,32 +65,25 @@ def ERR(outstring=''):
     help='Host or group run limit.')
 @click.option('--boot', '-n', type=click.BOOL, default=False,
     help='Allow reboots.')
-@click.argument('action')
+#@click.argument('action')
 
-def main(args=None,
-    config='',
-    ansible_tree='',
-    ansible_user='',
-    ssh_key_path='',
-    password_file='',
-    password_prompt=False,
-    inventory_limit='',
-    playbook='',
-    boot=False):
+def main(args=None):
     """Console script for cloud_enforcer."""
     click.echo("Enforcement dependencies and wrapper.")
     if password_file and password_prompt:
         ERR("You specified a password file.  Skipping password prompt.")
         password_prompt=False
-    ce.main(config=config,
-        ansible_user=ansible_user,
-        ssh_key_path=ssh_key_path,
-        password_file=password_file,
-        password_prompt=password_prompt,
-        inventory_limit=inventory_limit,
-        playbook=playbook,
-        boot=boot,
-        action=action)
+    c = {}
+    c['config'] = config
+    c['ansible_user'] = ansible_user
+    c['ssh_key_path'] = ssh_key_path
+    c['password_file'] = password_file
+    c['password_prompt'] = password_prompt
+    c['inventory_limit'] = inventory_limit
+    c['playbook'] = playbook
+    c['boot'] = boot
+    c['action'] = action
+    ce.main(c)
     return 0
 
 

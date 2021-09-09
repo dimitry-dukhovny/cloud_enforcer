@@ -8,13 +8,13 @@ coverage==4.5.4
 Sphinx==1.8.5
 twine==1.14.0
 Click==7.0
-pyaml
-boto
-boto3
-awscli
-pywinrm
-setuptools-rust
-rust
-cryptography
-ansible
+#pyaml
+#boto
+#boto3
+#awscli
+#pywinrm
+#setuptools-rust
+#rust
+#cryptography
+#ansible
 
