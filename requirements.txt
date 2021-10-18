@@ -3,6 +3,8 @@ boto
 boto3
 awscli
 pywinrm
+pykerberos
+requests_credssp
 ansible
 ansible-runner
 git-remote-codecommit
